@@ -6,11 +6,26 @@ function App() {
   useEffect(() => {
     const checkAPI = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/health`);
+        const apiUrl = `${process.env.REACT_APP_API_URL}/api/health`;
+        console.log('Fetching from:', apiUrl);
+        const response = await fetch(apiUrl);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          const text = await response.text();
+          console.error('Response is not JSON:', text.substring(0, 100));
+          throw new Error('Backend returned non-JSON response');
+        }
+        
         const data = await response.json();
         setStatus(data.status);
       } catch (error) {
-        setStatus('API connection failed');
+        console.error('API Error:', error);
+        setStatus(`API connection failed: ${error.message}`);
       }
     };
 
