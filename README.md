@@ -1,11 +1,11 @@
-# Events App
+# Memories
 
-A full-stack application for managing and browsing events.
+A full-stack application for managing and browsing memories.
 
 ## Project Structure
 
 ```
-events-app/
+memories/
 ├── backend/          # Node.js/Express server
 │   └── src/
 │       ├── routes/   # API routes
